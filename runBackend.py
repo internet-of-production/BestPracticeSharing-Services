@@ -1,11 +1,11 @@
 
-import MicroserviceBackend.DataImportService.dataimport as di
+import MicroserviceBackend.DataImportService.initialdataimport as di
 import MicroserviceBackend.DataImportService.datapreparation as dp
 import MicroserviceBackend.RecommendationService.ClusteringService.clustering as cl
 import MicroserviceBackend.RecommendationService.ClassifierService.classificaton as cf
 import MicroserviceBackend.ManipulationService.manipulatelabels as ml
-import MicroserviceBackend.DataViewService.plotclassification as pclass
-import MicroserviceBackend.DataViewService.plotclustering as pclust
+import MicroserviceFrontend.DataViewer.plotclassification as pclass
+import MicroserviceFrontend.DataViewer.plotclustering as pclust
 
 def runbackendOffline():
 

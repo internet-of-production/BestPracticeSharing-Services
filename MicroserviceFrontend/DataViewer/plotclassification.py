@@ -1,13 +1,14 @@
 
+from io import BytesIO
 import numpy as np
 import matplotlib.pyplot as plt
-import MicroserviceBackend.RecommendationService.ClassifierService.classificaton as cf
+import DatabaseIO.readDatabase as rd
 
 def plotClassification(X = None, a = None):
     print("- plotClassification")
 
     if (X == None and a == None):
-        X, a = cf.readClassificationData()
+        X, a = rd.readClassificationData()
 
     X = X.iloc[:, 0:].values
 
@@ -29,9 +30,12 @@ def plotClassification(X = None, a = None):
 
     plt.title('Classification. Number of clusters: %d' % len(unique_labels))
 
-    plt.show()
+#    plt.show()
 
 #    f.savefig("/Users/stefanbraun/PycharmProjects/BPS Flask/classification.pdf", bbox_inches='tight')
     f.savefig("classification.pdf", bbox_inches='tight')
 
-    return 1
+    img = BytesIO()
+    plt.savefig(img)
+    img.seek(0)
+    return img

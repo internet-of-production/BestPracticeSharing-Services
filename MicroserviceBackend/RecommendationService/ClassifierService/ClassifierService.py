@@ -5,11 +5,21 @@ import MicroserviceBackend.RecommendationService.ClassifierService.classificaton
 app = Flask(__name__)
 
 @app.route('/')
-def index():
+@app.route('/classificationonclustering/')
+def onclustering():
 
-    cf.doClassification()
+    cf.doClassification('Clustering')
 
     return "You have just executed the Classifier Service!"
+
+
+@app.route('/classificationonclassification/')
+def onclassification():
+
+    cf.doClassification('Classification')
+
+    return "You have just executed the Classifier Service!"
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5004)

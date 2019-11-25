@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="../static/style.css" rel="stylesheet" type="text/css">
+<title>Clustering Result</title>
+</head>
+<body>
+    <div id="element1">
+        <br><br><br><br><br><br><br><br>
+        <p>Auswahl der Produktebene</p>
+        <select name="activity">
+        {% for activity in activities %}
+            <option value="{{ activity }}">{{ activity }}</option>
+        {% endfor %}
+        </select>
+        <p>Auswahl der Ressource</p>
+        <select name="activity">
+        {% for activity in activities %}
+            <option value="{{ activity }}">{{ activity }}</option>
+        {% endfor %}
+        </select>
+        <br><br><br><br><br><br><br><br>
+        <p>-------------------------------------------------------</p>
+        <br><br><br><br><br><br><br><br>
+        <p>Aktionen:</p>
+<!--        <a href="{{ "https://www.google.com/"}}">www.google.de</a>-->
+        <p></p>
+        <a href="{{ url_for('index')}}"> Start Page </a>
+        <p></p>
+        <a href="{{ "http://137.226.232.236:/dataimport/"}}"> Import Data </a>
+        <p></p>
+        <a href="{{ "http://137.226.232.236:/clustering/"}}"> Reset Clustering </a>
+        <p></p>
+        <a href="{{ "http://137.226.232.236:/manipulate/"}}"> Manipulate Clustering Result </a>
+        <p></p>
+        <a href="{{ "http://137.226.232.236:/classificationonclustering/"}}"> Run Classification (on Clustering)</a>
+        <p></p>
+        <a href="{{ "http://137.226.232.236:/classificationonclassification/"}}"> Run Classification (on Classification) </a>
+        <p></p>
+        <a href="{{ "http://137.226.232.236:/scheduler/"}}"> Start Scheduler </a>
+<!--        <p></p>
+        <a href="{{ "http://137.226.232.236:5002/"}}"> Plot Clustering </a>
+        <p></p>
+        <a href="{{ "http://137.226.232.236:5005/"}}"> Plot Classification </a>
+-->
+        <br><br><br><br><br><br><br><br>
+        <p>-------------------------------------------------------</p>
+        <br><br><br><br><br><br><br><br>
+        <p>Ergebnisse:</p>
+        <p></p>
+        <a href="{{ url_for('main_clusterresult')}}"> {{ clusteringPage }}</a>
+        <p></p>
+        <a href="{{ url_for('main_classificationresult')}}"> {{ classificationPage }}</a>
+        <p></p>
+    </div>
+    <div id="element2">
+        <p>Prozesse: </p>
+        <table style="width:100%">
+        <tr><th>id</th><th>xValue</th><th>yValue</th><th>Label</th><th>Clustercore</th></tr>
+
+            {% for id, xValue, yValue, Label, Clustercore in processes %}
+                <tr>
+                    <td><a href="{{ url_for('main_specificclusterresult', procid = id)}}">{{ id}}</a></td>
+                    <td>{{ xValue }}</td>
+                    <td>{{ yValue }}</td>
+                    <td>{{ Label }}</td>
+                    <td>{{ Clustercore }}</td>
+                </tr>
+                {% endfor %}
+
+        </table>
+    </div>
+    <div id="element3">
+        <p> Graphische Prozessdarstellung </p>
+        <img src="{{ url_for('main_plot_clustering') }}" alt="Image">
+    </div>
+</body>
+</html>

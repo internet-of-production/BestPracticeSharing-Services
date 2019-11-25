@@ -4,7 +4,8 @@ import MicroserviceBackend.RecommendationService.ClusteringService.clustering as
 
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route('/clustering/')
 def index():
 
     cl.doClustering()

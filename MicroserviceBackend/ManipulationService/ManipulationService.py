@@ -4,7 +4,7 @@ import MicroserviceBackend.ManipulationService.manipulatelabels as ml
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/manipulate/')
 def index():
 
     ml.manipulateLabelExample()

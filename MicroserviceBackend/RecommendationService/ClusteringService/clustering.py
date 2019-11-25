@@ -3,26 +3,10 @@ import numpy as np
 import pandas as pd
 from sklearn.cluster import DBSCAN
 from sklearn import metrics
-import MicroserviceBackend.DataImportService.datapreparation as dp
 import sqlite3
-
-# read clustering result from data mart
-def readClusteredData():
-    print("- readClusteredData")
-
-    #    conn = sqlite3.connect('/Users/stefanbraun/PycharmProjects/BPS Flask/BestPracticeSharing.sqlite')
-    conn = sqlite3.connect('BestPracticeSharing.sqlite')
-    c = conn.cursor()
-    df1 = pd.DataFrame(conn.execute("SELECT xValue, yValue, Label, Clustercore FROM ClusteredData").fetchall())
-    conn.close()
-    df1.columns = ['xValue', 'yValue', 'Label', 'Clustercore']
-
-    X = df1[['xValue','yValue']]
-    y = df1[['Label']].to_numpy().flatten()
-    clustercore = df1[['Clustercore']].to_numpy().flatten()
-
-    print("+ readClusteredData")
-    return X, y, clustercore
+import DatabaseIO.readDatabase as rd
+import time
+import datetime
 
 
 def writeClusteringResult(X, labels, labels_true, core_samples_mask):
@@ -49,10 +33,10 @@ def writeClusteringResult(X, labels, labels_true, core_samples_mask):
     df1['Label'] = labels
     df1['Clustercore'] = core_samples_mask
 
-    #    conn = sqlite3.connect('/Users/stefanbraun/PycharmProjects/BPS Flask/BestPracticeSharing.sqlite')
     conn = sqlite3.connect('BestPracticeSharing.sqlite')
-    c = conn.cursor()
     df1.to_sql('ClusteredData', con=conn, if_exists='replace', index_label='id')
+    df1['ts'] = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+    df1.to_sql('ClusteredDataHistorisiert', con=conn, if_exists='append', index_label= 'id')
     conn.commit()
     conn.close()
 
@@ -65,7 +49,7 @@ def doClustering(X = None, y = None):
     print("- doClustering")
 
     if (X == None and y == None):
-        X, y = dp.readTransformedData()
+        X, y = rd.readTransformedData()
 
     # Compute DBSCAN
     db = DBSCAN(eps=0.3, min_samples=10).fit(X)

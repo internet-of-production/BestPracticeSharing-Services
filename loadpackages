@@ -1,0 +1,2 @@
+export PYTHONPATH="${PYTHONPATH}:/home/stefan/BPS/DatabaseIO/"
+export PYTHONPATH="${PYTHONPATH}:/home/stefan/BPS/MicroserviceBackend/"

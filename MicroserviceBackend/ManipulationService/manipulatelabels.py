@@ -1,5 +1,6 @@
 
 import MicroserviceBackend.RecommendationService.ClusteringService.clustering as cl
+import DatabaseIO.readDatabase as rd
 
 # manipulate specific label (label vector, position to manipulate, new label)
 def manipulateLabel(y, i, label):
@@ -15,7 +16,7 @@ def manipulateLabel(y, i, label):
 def manipulateLabelExample():
     print("- manipulateLabelExample")
 
-    X, labels, core_samples_mask = cl.readClusteredData()
+    X, labels, core_samples_mask = rd.readClusteredData()
 
     for i in range(300):
        manipulateLabel(labels,i,3)

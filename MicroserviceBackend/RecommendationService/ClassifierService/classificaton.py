@@ -7,7 +7,9 @@ import matplotlib.pyplot as plt
 import sqlite3
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import LinearSVC
-import MicroserviceBackend.RecommendationService.ClusteringService.clustering as cl
+import DatabaseIO.readDatabase as rd
+import time
+import datetime
 
 def plot_hyperplane(clf, min_x, max_x, linestyle, label):
     # get the separating hyperplane
@@ -16,23 +18,6 @@ def plot_hyperplane(clf, min_x, max_x, linestyle, label):
     xx = np.linspace(min_x - 0.5, max_x + 0.5)  # make sure the line is long enough
     yy = a * xx - (clf.intercept_[0]) / w[1]
     plt.plot(xx, yy, linestyle, label=label)
-
-
-def readClassificationData():
-    print("- readClassificationData")
-
-    #    conn = sqlite3.connect('/Users/stefanbraun/PycharmProjects/BPS Flask/BestPracticeSharing.sqlite')
-    conn = sqlite3.connect('BestPracticeSharing.sqlite')
-    c = conn.cursor()
-    df1 = pd.DataFrame(conn.execute("SELECT xValue, yValue, Label FROM ClassifiedData").fetchall())
-    conn.close()
-    df1.columns = ['xValue', 'yValue', 'Label']
-
-    X = df1[['xValue','yValue']]
-    y = df1[['Label']].to_numpy().flatten()
-
-    print("+ readClassificationData")
-    return X, y
 
 
 def writeClassificationResult(X, a):
@@ -45,6 +30,8 @@ def writeClassificationResult(X, a):
     conn = sqlite3.connect('BestPracticeSharing.sqlite')
     c = conn.cursor()
     df1.to_sql('ClassifiedData', con=conn, if_exists='replace', index_label='id')
+    df1['ts'] = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+    df1.to_sql('ClassifiedDataHistorisiert', con=conn, if_exists='append', index_label= 'id')
     conn.commit()
     conn.close()
 
@@ -53,20 +40,22 @@ def writeClassificationResult(X, a):
 
 
 # perform classification on the results (for similarity)
-def doClassification(X = None, z = None):
+def doClassification(inputbase = 'Clustering', X = None, y = None):
     print("- doClassification")
 
-    if (X == None and z == None):
-        X, z, core_samples_mask =  cl.readClusteredData();
+    if (X == None and y == None):
+        if inputbase == 'Clustering':
+            X, y, core_samples_mask =  rd.readClusteredData()
+        else:
+            X, y =  rd.readClassificationData()
 
     X2 = X.iloc[:, 0:].values
-    Y = z
 
     classif = OneVsRestClassifier(LinearSVC(random_state=0))
-    classif.fit(X2, Y)
+    classif.fit(X2, y)
     a = classif.predict(X2)
 
     writeClassificationResult(X, a)
 
     return 1
-# TODO: Add choice to use clustering or classification as input
+# Add choice to use clustering or classification as input

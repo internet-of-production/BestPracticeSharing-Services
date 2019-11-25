@@ -1,13 +1,14 @@
 
+from io import BytesIO
 import numpy as np
 import matplotlib.pyplot as plt
-import MicroserviceBackend.RecommendationService.ClusteringService.clustering as cl
+import DatabaseIO.readDatabase as rd
 
 def plotClustering(X = None, labels = None, core_samples_mask = None):
     print("- plotClustering")
 
     if (X == None and labels == None and core_samples_mask == None):
-        X, labels, core_samples_mask = cl.readClusteredData()
+        X, labels, core_samples_mask = rd.readClusteredData()
 
     # Cast 1/0 to bool
     core_samples_mask = np.ma.make_mask(core_samples_mask)
@@ -34,9 +35,12 @@ def plotClustering(X = None, labels = None, core_samples_mask = None):
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col), markeredgecolor='k', markersize=6)
 
     plt.title('Clustering. Estimated number of clusters: %d' % len(unique_labels))
-    plt.show()
+#    plt.show()
 
 #    f.savefig("/Users/stefanbraun/PycharmProjects/BPS Flask/clustering.pdf", bbox_inches='tight')
     f.savefig("clustering.pdf", bbox_inches='tight')
 
-    return 1
+    img = BytesIO()
+    plt.savefig(img)
+    img.seek(0)
+    return img
