@@ -6,9 +6,9 @@ def doScheduling():
     print("- doScheduling")
 
     print("executing Classification")
-    requests.get(url="http://137.226.232.236:5004/")
+    requests.get(url="https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclassification/")
 
-    time.sleep(3600)
+    time.sleep(10)
     doScheduling()
 
     print("+ doScheduling")
