@@ -2,11 +2,18 @@ body
 {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+.top-pad
+{
+  padding: 40px 15px;
+  text-align: center;
+}
+
 #element1
 {
     display: inline-block;
     margin-top:5px;
-    width:33%;
+    width:20%;
 }
 
 #element2
@@ -17,7 +24,7 @@ body
 /*    margin-top:90px; */
     margin-top:5px;
     alignment:left;
-    width:33%;
+    width:45%;
 
 }
 
@@ -25,5 +32,5 @@ body
 {
     display: inline-block;
     margin-top:0px;
-    width:33%;
+    width:30%;
 }

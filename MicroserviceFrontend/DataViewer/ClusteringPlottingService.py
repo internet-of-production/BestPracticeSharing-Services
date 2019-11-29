@@ -1,5 +1,5 @@
 #!flask/bin/python
-from flask import Flask
+from flask import Flask, flash
 import MicroserviceFrontend.DataViewer.plotclustering as pclust
 
 app = Flask(__name__)

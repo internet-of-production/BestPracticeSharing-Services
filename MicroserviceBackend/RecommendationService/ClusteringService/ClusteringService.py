@@ -7,9 +7,7 @@ app = Flask(__name__)
 
 @app.route('/clustering/')
 def index():
-
     cl.doClustering()
-
     return "You have just successfully executed the Clustering Service!"
 
 

@@ -1,62 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<link href= "../bps/static/style.css" rel="stylesheet" type="text/css">
-<title>Best Practice Sharing</title>
-</head>
-<body>
-    <div id="element1">
-        <br><br><br><br><br>
-        <p>Auswahl der Produktebene</p>
-        <select name="activity">
-        {% for activity in activities %}
-            <option value="{{ activity }}">{{ activity }}</option>
-        {% endfor %}
-        </select>
-        <p>Auswahl der Ressource</p>
-        <select name="activity">
-        {% for activity in activities %}
-            <option value="{{ activity }}">{{ activity }}</option>
-        {% endfor %}
-        </select>
-        <br><br><br><br><br>
-        <p>-------------------------------------------------------</p>
-        <br><br><br><br><br>
-        <p>Aktionen:</p>
-<!--        <a href="{{ "https://www.google.com/"}}">www.google.de</a>-->
-        <p></p>
-        <a href="{{ url_for('index')}}"> Start Page </a>
-        <p></p>
-        <a href="{{ "https://treibhaus.informatik.rwth-aachen.de/bps/dataimport/"}}"> Import Data </a>
-        <p></p>
-        <a href="{{ "https://treibhaus.informatik.rwth-aachen.de/bps/clustering/"}}"> Reset Clustering </a>
-        <p></p>
-        <a href="{{ "https://treibhaus.informatik.rwth-aachen.de/bps/manipulate/"}}"> Manipulate Clustering Result </a>
-        <p></p>
-        <a href="{{ "https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclustering/"}}"> Run Classification (on Clustering)</a>
-        <p></p>
-        <a href="{{ "https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclassification/"}}"> Run Classification (on Classification) </a>
-        <p></p>
-        <a href="{{ "https://treibhaus.informatik.rwth-aachen.de/bps/scheduler/"}}"> Start Scheduler </a>
-<!--        <p></p>
-        <a href="{{ "http://137.226.232.236:5002/"}}"> Plot Clustering </a>
-        <p></p>
-        <a href="{{ "http://137.226.232.236:5005/"}}"> Plot Classification </a>
--->
-        <br><br><br><br><br>
-        <p>-------------------------------------------------------</p>
-        <br><br><br><br><br>
-        <p>Ergebnisse:</p>
-        <p></p>
-        <a href="{{ url_for('main_clusterresult')}}"> {{ clusteringPage }}</a>
-        <p></p>
-        <a href="{{ url_for('main_classificationresult')}}"> {{ classificationPage }}</a>
-        <p></p>
-    </div>
-    <div id="element2">
-    </div>
-    <div id="element3">
-    </div>
-</body>
-</html>
+
+{% extends "layout.html" %}
+
+{% block content2 %}
+{% endblock %}
+
+{% block content3 %}
+{% endblock %}

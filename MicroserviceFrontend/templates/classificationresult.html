@@ -1,78 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<link href= "../bps/static/style.css" rel="stylesheet" type="text/css">
-<title>Clustering Result</title>
-</head>
-<body>
-    <div id="element1">
-        <br><br><br><br><br>
-        <p>Auswahl der Produktebene</p>
-        <select name="activity">
-        {% for activity in activities %}
-            <option value="{{ activity }}">{{ activity }}</option>
-        {% endfor %}
-        </select>
-        <p>Auswahl der Ressource</p>
-        <select name="activity">
-        {% for activity in activities %}
-            <option value="{{ activity }}">{{ activity }}</option>
-        {% endfor %}
-        </select>
-        <br><br><br><br><br>
-        <p>-------------------------------------------------------</p>
-        <br><br><br><br><br>
-        <p>Aktionen:</p>
-<!--        <a href="{{ "https://www.google.com/"}}">www.google.de</a>-->
-        <p></p>
-        <a href="{{ url_for('index')}}"> Start Page </a>
-        <p></p>
-        <a href="{{ "https://treibhaus.informatik.rwth-aachen.de/bps/dataimport/"}}"> Import Data </a>
-        <p></p>
-        <a href="{{ "https://treibhaus.informatik.rwth-aachen.de/bps/clustering/"}}"> Reset Clustering </a>
-        <p></p>
-        <a href="{{ "https://treibhaus.informatik.rwth-aachen.de/bps/manipulate/"}}"> Manipulate Clustering Result </a>
-        <p></p>
-        <a href="{{ "https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclustering/"}}"> Run Classification (on Clustering)</a>
-        <p></p>
-        <a href="{{ "https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclassification/"}}"> Run Classification (on Classification) </a>
-        <p></p>
-        <a href="{{ "https://treibhaus.informatik.rwth-aachen.de/bps/scheduler/"}}"> Start Scheduler </a>
-<!--        <p></p>
-        <a href="{{ "http://137.226.232.236:5002/"}}"> Plot Clustering </a>
-        <p></p>
-        <a href="{{ "http://137.226.232.236:5005/"}}"> Plot Classification </a>
--->
-        <br><br><br><br><br>
-        <p>-------------------------------------------------------</p>
-        <br><br><br><br><br>
-        <p>Ergebnisse:</p>
-        <p></p>
-        <a href="{{ url_for('main_clusterresult')}}"> {{ clusteringPage }}</a>
-        <p></p>
-        <a href="{{ url_for('main_classificationresult')}}"> {{ classificationPage }}</a>
-        <p></p>
-    </div>
-    <div id="element2">
-        <p>Prozesse: </p>
-        <table style="width:100%">
-        <tr><th>id</th><th>xValue</th><th>yValue</th><th>Label</th></tr>
+
+{% extends "layout.html" %}
+
+{% block content2 %}
+
+     <h1>Prozesse </h1>
 
             {% for id, xValue, yValue, Label in processes %}
-                <tr>
-                    <td><a href="{{ url_for('main_specificclassificationresult', procid = id)}}">{{ id}}</a></td>
-                    <td>{{ xValue }}</td>
-                    <td>{{ yValue }}</td>
-                    <td>{{ Label }}</td>
-                </tr>
-                {% endfor %}
+                <div class="well">
+                    <h2>
+                        <a href="{{ url_for('main_specificclassificationresult', procid = id)}}">ID: {{ id}}</a>
+                        Label: {{ Label }}
+                    </h2>
+                    xValue: {{ xValue }};
+                    yValue: {{ yValue }}
+                </div>
+            {% endfor %}
+{% endblock %}
 
-        </table>
-    </div>
-    <div id="element3">
+{% block content3 %}
         <p> Graphische Prozessdarstellung </p>
         <img src="{{ url_for('main_plot_classification') }}" alt="Image">
-    </div>
-</body>
-</html>
+{% endblock %}
+
+
+
+
