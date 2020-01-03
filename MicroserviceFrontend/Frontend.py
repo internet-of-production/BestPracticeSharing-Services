@@ -33,37 +33,43 @@ def index():
 @app.route('/dataimportredirect')
 def dataimportredirect():
     flash("You have just successfully executed the Data Import Service!")
-    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/dataimport/")
+    urllib.request.urlopen("http://127.0.0.1:5000/dataimport/")
+#    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/dataimport/")
     return(return_origin())
 
 @app.route('/manipulationredirect')
 def manipulationredirect():
     flash("You have just successfully executed the Manipulation Service!")
-    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/manipulate/")
+#    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/manipulate/")
+    urllib.request.urlopen("http://127.0.0.1:5003/manipulate/")
     return(return_origin())
 
 @app.route('/clusteringredirect')
 def clusteringredirect():
     flash("You have just successfully executed the Clustering Service!")
-    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/clustering/")
+#    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/clustering/")
+    urllib.request.urlopen("http://127.0.0.1:5001/clustering/")
     return(return_origin())
 
 @app.route('/classficationonclusteringredirect')
 def classficationonclusteringredirect():
     flash("You have just successfully executed the Clustering Service!")
-    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclustering/")
+#    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclustering/")
+    urllib.request.urlopen("http://127.0.0.1:5004/classificationonclustering/")
     return(return_origin())
 
 @app.route('/classficationonclassificationredirect')
 def classficationonclassificationredirect():
     flash("You have just successfully executed the Clustering Service!")
-    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclassification/")
+#    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclassification/")
+    urllib.request.urlopen("http://127.0.0.1:5004/classificationonclassification/")
     return(return_origin())
 
 @app.route('/schedulerredirect')
 def schedulerredirect():
     flash("You have just successfully executed the Scheduling Service!")
-    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/scheduler/")
+#    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/scheduler/")
+    urllib.request.urlopen("http://127.0.0.1:5006/scheduler/")
     return(return_origin())
 
 

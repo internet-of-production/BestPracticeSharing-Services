@@ -10,6 +10,7 @@ from sklearn.svm import LinearSVC
 import DatabaseIO.readDatabase as rd
 import time
 import datetime
+#import metric-learn as ml
 
 def plot_hyperplane(clf, min_x, max_x, linestyle, label):
     # get the separating hyperplane
@@ -26,7 +27,6 @@ def writeClassificationResult(X, a):
     df1 = pd.DataFrame(X)
     df1['Label'] = a
 
-    #    conn = sqlite3.connect('/Users/stefanbraun/PycharmProjects/BPS Flask/BestPracticeSharing.sqlite')
     conn = sqlite3.connect('BestPracticeSharing.sqlite')
     c = conn.cursor()
     df1.to_sql('ClassifiedData', con=conn, if_exists='replace', index_label='id')

@@ -9,7 +9,8 @@ app = Flask(__name__)
 def index():
     di.writeDataFromExcelToDatabase()
     dp.writeTransformedData()
-    return redirect("https://treibhaus.informatik.rwth-aachen.de/bps/")
+#    return redirect("https://treibhaus.informatik.rwth-aachen.de/bps/")
+    return redirect("http://127.0.0.1:8000")
 
 
 if __name__ == '__main__':
