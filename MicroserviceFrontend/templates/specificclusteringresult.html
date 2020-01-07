@@ -3,35 +3,40 @@
 
 {% block content2 %}
 
-        <h1>Referenzprozess </h1>
+    <h1>Referenzprozess </h1>
 
-            {% for id, xValue, yValue, Label, Clustercore in reference_process %}
+            {% for row in reference_process %}
+
                 <div class="well">
                     <h2>
-                        <a href="{{ url_for('main_clusterresult')}}">ID: {{ id}}</a>
-                        Clustercore: {{ Clustercore }} ; Label: {{ Label }}
+                        <a href="{{ url_for('main_clusterresult', procid = row[0])}}">ID: {{ row[0]}}</a>
+                        Clustercore: {{ row[-1] }} ; Label: {{ row[-2] }}
                     </h2>
-                    xValue: {{ xValue }};
-                    yValue: {{ yValue }}
+                    Coordinates: {{ row[1:-2] }}
                 </div>
-                {% endfor %}
 
-     <h1>Prozesse mit gleichem Label</h1>
+            {% endfor %}
 
-            {% for id, xValue, yValue, Label, Clustercore in processes %}
+     <h1>Ähnliche Prozesse</h1>
+
+            {% for row in processes %}
                 <div class="well">
                     <h2>
-                        <a href="{{ url_for('main_specificclusterresult', procid = id)}}">ID: {{ id}}</a>
-                        Clustercore: {{ Clustercore }} ; Label: {{ Label }}
+                        <a href="{{ url_for('main_specificclusterresult', procid = row[0])}}">ID: {{ row[0]}}</a>
+                        Clustercore: {{ row[-1] }} ; Label: {{ row[-2] }};
+                        <a href="{{ url_for('main_upvote', procid = row[0])}}"> Upvote </a>;
+                        <a href="{{ url_for('main_downvote', procid = row[0])}}"> Downvote </a>
                     </h2>
-                    xValue: {{ xValue }};
-                    yValue: {{ yValue }}
+                    Coordinates: {{ row[1:-2] }}
                 </div>
             {% endfor %}
 
 {% endblock %}
 
 {% block content3 %}
+        <br>
+        <br>
+        <br>
         <p> Graphische Prozessdarstellung </p>
         <img src="{{ url_for('main_plot_clustering') }}" alt="Image">
 {% endblock %}

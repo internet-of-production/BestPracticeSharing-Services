@@ -38,4 +38,5 @@ def plotClassification(X = None, a = None):
     img = BytesIO()
     plt.savefig(img)
     img.seek(0)
+    print("+ plotClassification")
     return img

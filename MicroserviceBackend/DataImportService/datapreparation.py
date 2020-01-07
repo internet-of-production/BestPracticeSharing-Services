@@ -7,7 +7,9 @@ def transformData():
     print("- transformData")
 
     df1 = di.readInputDataFromDatabase()
-    df1.columns = ['xValue', 'yValue', 'Label']
+#    df1.columns = ['xValue', 'yValue', 'Label']
+
+#    print(df1)
 
     print("+ transformData")
     return df1
@@ -22,7 +24,7 @@ def writeTransformedData():
     #    conn = sqlite3.connect('/Users/stefanbraun/PycharmProjects/BPS Flask/BestPracticeSharing.sqlite')
     conn = sqlite3.connect('BestPracticeSharing.sqlite')
     c = conn.cursor()
-    df1.to_sql('TransformedData', con=conn, if_exists='replace', index_label='id')
+    df1.to_sql('TransformedData', con=conn, if_exists='replace')
     conn.commit()
     conn.close()
 

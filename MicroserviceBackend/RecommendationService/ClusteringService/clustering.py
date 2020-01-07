@@ -34,15 +34,16 @@ def writeClusteringResult(X, labels, labels_true, core_samples_mask):
 #          % metrics.silhouette_score(X, labels))
 
     df1 = pd.DataFrame(X)
-    df1.columns = ['xValue', 'yValue']
-    print(df1)
+#    df1.columns = ['xValue', 'yValue']
+#    print(df1)
     df1['Label'] = labels
     df1['Clustercore'] = core_samples_mask
+#    print(df1)
 
     conn = sqlite3.connect('BestPracticeSharing.sqlite')
-    df1.to_sql('ClusteredData', con=conn, if_exists='replace', index_label='id')
-    df1['ts'] = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-    df1.to_sql('ClusteredDataHistorisiert', con=conn, if_exists='append', index_label= 'id')
+    df1.to_sql('ClusteredData', con=conn, if_exists='replace')
+#    df1['ts'] = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+#    df1.to_sql('ClusteredDataHistorisiert', con=conn, if_exists='append', index_label= 'id')
     conn.commit()
     conn.close()
 
@@ -55,14 +56,13 @@ def doClustering(X = None, y = None, initial = False):
     takekmeans = True
     takeoptics = False
     print("- doClustering")
-
-    if (X == None and y == None):
-        if initial == True:
-            X, y = rd.readTransformedData()
-        else:
-            X, y, clustercore = rd.readClusteredData()
-
-    votesX, votesY = rd.readFeedbackData()
+    #
+    # if (X == None and y == None):
+    #     if initial == True:
+    #         X, y = rd.readTransformedData()
+    #     else:
+    #         X, y, clustercore = rd.readClusteredData()
+    #         votesX, votesY = rd.readFeedbackData()
 
     X, y = rd.readTransformedData()
 
@@ -77,48 +77,51 @@ def doClustering(X = None, y = None, initial = False):
 
     X2 = X.iloc[:, 0:].values
 
-    print("X2")
-    print(X2)
+#    print("X2")
+#    print(X2)
 
-    pairs = []
-    for index, row in votesX.iterrows():
-#        print("iterrow")
-#        print(row["id_punkt1"])
-#        print(row["id_punkt2"])
-        pairs.append((X2[row["id_punkt1"]], X2[row["id_punkt2"]]))
-
-    print("pairs")
-    print(pairs)
-    a = votesY
-    print(a)
-#    upvotes = [X2[0], X2[1]]
-#    upvotes = [[[1.2, 7.5], [1.3, 1.5]]]
-#    #    downvotes =
-#    print(upvotes)
-#    upvotes = [[X2[0], X2[1]], [X2[1], X2[2]]]
-#    print(upvotes)
-#    a = [1, -1]
-
-    itml = ITML()
-    itml.fit(pairs, a)
-    print("Transform")
-    print(X2)
 #    print(itml.transform(X2))
     if initial == False:
+
+        votesX, votesY = rd.readFeedbackData()
+        pairs = []
+        for index, row in votesX.iterrows():
+            #        print("iterrow")
+            #        print(row["id_punkt1"])
+            #        print(row["id_punkt2"])
+            pairs.append((X2[row["id_punkt1"]], X2[row["id_punkt2"]]))
+
+#        print("pairs")
+#        print(pairs)
+        a = votesY
+#        print(a)
+        #    upvotes = [X2[0], X2[1]]
+        #    upvotes = [[[1.2, 7.5], [1.3, 1.5]]]
+        #    #    downvotes =
+        #    print(upvotes)
+        #    upvotes = [[X2[0], X2[1]], [X2[1], X2[2]]]
+        #    print(upvotes)
+        #    a = [1, -1]
+
+        itml = ITML()
+        itml.fit(pairs, a)
+        print("Transform")
+#        print(X2)
+
         X2 = itml.transform(X2)
 #        X2 = X2 * 500
 #        X2 = X2 * 500
-        print(X2)
+#        print(X2)
 
 #    X2 = X2 * 1000
-    print(X2)
-    print(X)
+#    print(X2)
+#    print(X)
 
 #    writeClusteringResult(X, y)
 
     if takekmeans == True:
         # Compute kMeans
-        kmeans = KMeans(n_clusters=10, random_state=0).fit(X2)
+        kmeans = KMeans(n_clusters=3, random_state=0).fit(X2)
         labels = kmeans.labels_
         labels_true = y
         core_samples_mask = [0] * len(y)

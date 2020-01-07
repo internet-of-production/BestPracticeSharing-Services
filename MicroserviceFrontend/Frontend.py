@@ -5,8 +5,8 @@ import urllib.request
 import DatabaseIO.readDatabase as rd
 import MicroserviceFrontend.DataViewer.plotclassification as pclass
 import MicroserviceFrontend.DataViewer.plotclustering as pclust
+import MicroserviceBackend.RecommendationService.VotingService.voting as vs
 from DatabaseIO.config import *
-import sys
 
 app = Flask(__name__)
 
@@ -15,21 +15,18 @@ app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
 ReverseProxyPrefixFix(app)
 
-origin = ""
+origin = "clustering"
+current_process = 0
 
 def return_origin():
-    if origin == "clustering":
-        return (main_clusterresult())
-    elif origin == "classification":
-        return (main_classificationresult())
-    else:
-        return (index())
+    return (main_clusterresult())
 
 
 @app.route('/bps/')
 @app.route('/')
 def index():
     return render_template('main.html', clusteringPage = 'Ergebnis Clustering', classificationPage = 'Ergebnis Classification')
+#    return render_template('main.html', clusteringPage = 'Ergebnis Clustering')
 
 
 @app.route('/dataimportredirect')
@@ -39,7 +36,7 @@ def dataimportredirect():
         urllib.request.urlopen("http://127.0.0.1:5000/dataimport/")
     else:
         urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/dataimport/")
-    return(return_origin())
+    return(index())
 
 @app.route('/manipulationredirect')
 def manipulationredirect():
@@ -103,18 +100,65 @@ def main_clusterresult():
     origin = "clustering"
     df1 = rd.readClusteredDataDFWithID()
     processes = [tuple(x) for x in df1.values]
+    print(processes)
     return render_template('clusteringresult.html', processes=processes, clusteringPage = 'Ergebnis Clustering', classificationPage = 'Ergebnis Classification')
 
 
 @app.route('/bps/specificclusteringresult/<int:procid>', methods=['GET'])
 @app.route('/specificclusteringresult/<int:procid>', methods=['GET'])
 def main_specificclusterresult(procid):
+    global current_process
+    current_process = procid
     global origin
     origin = "clustering"
     df1 = rd.readClusteredDataDFWithID()
     reference_process = [tuple(x) for x in df1.loc[[procid]].values]
     df1 = df1[df1['Label'] == int(df1['Label'].loc[[procid]])]
     df1 = df1.drop([procid], axis = 0)
+    processes = [tuple(x) for x in df1.values]
+    return render_template('specificclusteringresult.html', processes=processes, reference_process=reference_process, clusteringPage = 'Ergebnis Clustering', classificationPage = 'Ergebnis Classification')
+
+
+@app.route('/bps/upvotepair/<int:procid>', methods=['GET'])
+@app.route('/upvotepair/<int:procid>', methods=['GET'])
+def main_upvote(procid):
+    flash("You have successfully upvoted the corresponding pair!")
+    global origin
+    origin = "clustering"
+    # Voting part start
+    global current_process
+    print("current_process", current_process)
+    print("procid", procid)
+    x1 =  current_process
+    x2 =  procid
+    vs.writeVotingResult(x1, x2, "upvote")
+    # Voting part end
+    df1 = rd.readClusteredDataDFWithID()
+    reference_process = [tuple(x) for x in df1.loc[[current_process]].values]
+    df1 = df1[df1['Label'] == int(df1['Label'].loc[[current_process]])]
+    df1 = df1.drop([current_process], axis = 0)
+    processes = [tuple(x) for x in df1.values]
+    return render_template('specificclusteringresult.html', processes=processes, reference_process=reference_process, clusteringPage = 'Ergebnis Clustering', classificationPage = 'Ergebnis Classification')
+
+
+@app.route('/bps/downvotepair/<int:procid>', methods=['GET'])
+@app.route('/downvotepair/<int:procid>', methods=['GET'])
+def main_downvote(procid):
+    flash("You have successfully downvoted the corresponding pair!")
+    global origin
+    origin = "clustering"
+    # Voting part start
+    global current_process
+    print("current_process", current_process)
+    print("procid", procid)
+    x1 =  current_process
+    x2 =  procid
+    vs.writeVotingResult(x1, x2, "downvote")
+    # Voting part end
+    df1 = rd.readClusteredDataDFWithID()
+    reference_process = [tuple(x) for x in df1.loc[[current_process]].values]
+    df1 = df1[df1['Label'] == int(df1['Label'].loc[[current_process]])]
+    df1 = df1.drop([current_process], axis = 0)
     processes = [tuple(x) for x in df1.values]
     return render_template('specificclusteringresult.html', processes=processes, reference_process=reference_process, clusteringPage = 'Ergebnis Clustering', classificationPage = 'Ergebnis Classification')
 
