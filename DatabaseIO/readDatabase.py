@@ -104,3 +104,19 @@ def readClassificationDataDFWithID():
 
     print("+ readClassificationDataDF")
     return df1
+
+
+def readFeedbackData():
+    print("- readFeedbackData")
+
+    conn = sqlite3.connect('BestPracticeSharing.sqlite')
+    c = conn.cursor()
+    df1 = pd.DataFrame(conn.execute("SELECT id_punkt1, id_punkt2, feedback FROM Feedback").fetchall())
+    conn.close()
+    df1.columns = ['id_punkt1', 'id_punkt2', 'feedback']
+
+    X = df1[['id_punkt1','id_punkt2']]
+    y = df1[['feedback']].to_numpy().flatten()
+
+    print("+ readFeedbackData")
+    return X, y

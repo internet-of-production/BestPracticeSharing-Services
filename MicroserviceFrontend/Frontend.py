@@ -5,6 +5,8 @@ import urllib.request
 import DatabaseIO.readDatabase as rd
 import MicroserviceFrontend.DataViewer.plotclassification as pclass
 import MicroserviceFrontend.DataViewer.plotclustering as pclust
+from DatabaseIO.config import *
+import sys
 
 app = Flask(__name__)
 
@@ -33,43 +35,64 @@ def index():
 @app.route('/dataimportredirect')
 def dataimportredirect():
     flash("You have just successfully executed the Data Import Service!")
-    urllib.request.urlopen("http://127.0.0.1:5000/dataimport/")
-#    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/dataimport/")
+    if runlocally:
+        urllib.request.urlopen("http://127.0.0.1:5000/dataimport/")
+    else:
+        urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/dataimport/")
     return(return_origin())
 
 @app.route('/manipulationredirect')
 def manipulationredirect():
     flash("You have just successfully executed the Manipulation Service!")
-#    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/manipulate/")
-    urllib.request.urlopen("http://127.0.0.1:5003/manipulate/")
+    if runlocally:
+        urllib.request.urlopen("http://127.0.0.1:5003/manipulate/")
+    else:
+        urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/manipulate/")
     return(return_origin())
 
 @app.route('/clusteringredirect')
 def clusteringredirect():
-    flash("You have just successfully executed the Clustering Service!")
-#    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/clustering/")
-    urllib.request.urlopen("http://127.0.0.1:5001/clustering/")
+    flash("You have just successfully executed the non-initial Clustering Service!")
+    if runlocally:
+        urllib.request.urlopen("http://127.0.0.1:5001/clustering/")
+    else:
+        urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/clustering/")
+    return(return_origin())
+
+@app.route('/clusteringredirect_initial')
+def clusteringredirect_initial():
+    flash("You have just successfully executed the initial Clustering Service!")
+    if runlocally:
+        urllib.request.urlopen("http://127.0.0.1:5001/clustering_initial/")
+    else:
+        urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/clustering_initial/")
     return(return_origin())
 
 @app.route('/classficationonclusteringredirect')
 def classficationonclusteringredirect():
     flash("You have just successfully executed the Clustering Service!")
-#    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclustering/")
-    urllib.request.urlopen("http://127.0.0.1:5004/classificationonclustering/")
+    if runlocally:
+        urllib.request.urlopen("http://127.0.0.1:5004/classificationonclustering/")
+    else:
+        urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclustering/")
     return(return_origin())
 
 @app.route('/classficationonclassificationredirect')
 def classficationonclassificationredirect():
     flash("You have just successfully executed the Clustering Service!")
-#    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclassification/")
-    urllib.request.urlopen("http://127.0.0.1:5004/classificationonclassification/")
+    if runlocally:
+        urllib.request.urlopen("http://127.0.0.1:5004/classificationonclassification/")
+    else:
+        urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/classificationonclassification/")
     return(return_origin())
 
 @app.route('/schedulerredirect')
 def schedulerredirect():
     flash("You have just successfully executed the Scheduling Service!")
-#    urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/scheduler/")
-    urllib.request.urlopen("http://127.0.0.1:5006/scheduler/")
+    if runlocally:
+        urllib.request.urlopen("http://127.0.0.1:5006/scheduler/")
+    else:
+        urllib.request.urlopen("https://treibhaus.informatik.rwth-aachen.de/bps/scheduler/")
     return(return_origin())
 
 

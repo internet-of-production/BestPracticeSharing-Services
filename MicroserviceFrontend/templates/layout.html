@@ -33,11 +33,12 @@
                 <li class="divider"></li>
                 <li><a href="{{ url_for('dataimportredirect')}}"> Import Data </a></li>
                 <li class="divider"></li>
-                <li><a href="{{ url_for('clusteringredirect')}}"> Reset Clustering </a></li>
-                <li><a href="{{ url_for('manipulationredirect')}}"> Manipulate Clustering Result </a></li>
+                <li><a href="{{ url_for('clusteringredirect_initial')}}"> Run Initial Clustering </a></li>
+                <li><a href="{{ url_for('clusteringredirect')}}"> Run Metric Learning and Clustering </a></li>
+<!--                <li><a href="{{ url_for('manipulationredirect')}}"> Manipulate Clustering Result </a></li>
                 <li class="divider"></li>
                 <li><a href="{{ url_for('classficationonclusteringredirect')}}"> Run Classification (on Clustering)</a></li>
-                <li><a href="{{ url_for('classficationonclassificationredirect')}}"> Run Classification (on Classification) </a></li>
+                <li><a href="{{ url_for('classficationonclassificationredirect')}}"> Run Classification (on Classification) </a></li>-->
                 <li class="divider"></li>
                 <li><a href="{{ url_for('schedulerredirect')}}"> Start Scheduler </a> </li>
               </ul>
@@ -46,8 +47,8 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Ergebnisse <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="{{ url_for('main_clusterresult')}}"> {{ clusteringPage }}</a></li>
-                <li class="divider"></li>
-                <li><a href="{{ url_for('main_classificationresult')}}"> {{ classificationPage }}</a></li>
+<!--                <li class="divider"></li>
+                <li><a href="{{ url_for('main_classificationresult')}}"> {{ classificationPage }}</a></li>-->
               </ul>
             </li>
           </ul>

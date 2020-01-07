@@ -2,11 +2,15 @@
 import numpy as np
 import pandas as pd
 from sklearn.cluster import DBSCAN
+from sklearn.cluster import KMeans
+from sklearn.cluster import OPTICS, cluster_optics_dbscan
 from sklearn import metrics
 import sqlite3
 import DatabaseIO.readDatabase as rd
 import time
 import datetime
+#import metric_learn
+from metric_learn import ITML
 
 
 def writeClusteringResult(X, labels, labels_true, core_samples_mask):
@@ -26,10 +30,12 @@ def writeClusteringResult(X, labels, labels_true, core_samples_mask):
     print("Adjusted Mutual Information: %0.3f"
           % metrics.adjusted_mutual_info_score(labels_true, labels,
                                                average_method='arithmetic'))
-    print("Silhouette Coefficient: %0.3f"
-          % metrics.silhouette_score(X, labels))
+#    print("Silhouette Coefficient: %0.3f"
+#          % metrics.silhouette_score(X, labels))
 
     df1 = pd.DataFrame(X)
+    df1.columns = ['xValue', 'yValue']
+    print(df1)
     df1['Label'] = labels
     df1['Clustercore'] = core_samples_mask
 
@@ -45,20 +51,94 @@ def writeClusteringResult(X, labels, labels_true, core_samples_mask):
 
 
 # do a calculation of similar processes based on clustering
-def doClustering(X = None, y = None):
+def doClustering(X = None, y = None, initial = False):
+    takekmeans = True
+    takeoptics = False
     print("- doClustering")
 
     if (X == None and y == None):
-        X, y = rd.readTransformedData()
+        if initial == True:
+            X, y = rd.readTransformedData()
+        else:
+            X, y, clustercore = rd.readClusteredData()
 
-    # Compute DBSCAN
-    db = DBSCAN(eps=0.3, min_samples=10).fit(X)
-    core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
-    core_samples_mask[db.core_sample_indices_] = True
-    labels = db.labels_
-    labels_true = y
+    votesX, votesY = rd.readFeedbackData()
 
-    writeClusteringResult(X, labels, labels_true, core_samples_mask)
+    X, y = rd.readTransformedData()
+
+    # metric learning
+
+#    X2 = X.iloc[:, 0:].values
+
+#    print("votesX")
+#    print(votesX)
+#    print("votesY")
+#    print(votesY)
+
+    X2 = X.iloc[:, 0:].values
+
+    print("X2")
+    print(X2)
+
+    pairs = []
+    for index, row in votesX.iterrows():
+#        print("iterrow")
+#        print(row["id_punkt1"])
+#        print(row["id_punkt2"])
+        pairs.append((X2[row["id_punkt1"]], X2[row["id_punkt2"]]))
+
+    print("pairs")
+    print(pairs)
+    a = votesY
+    print(a)
+#    upvotes = [X2[0], X2[1]]
+#    upvotes = [[[1.2, 7.5], [1.3, 1.5]]]
+#    #    downvotes =
+#    print(upvotes)
+#    upvotes = [[X2[0], X2[1]], [X2[1], X2[2]]]
+#    print(upvotes)
+#    a = [1, -1]
+
+    itml = ITML()
+    itml.fit(pairs, a)
+    print("Transform")
+    print(X2)
+#    print(itml.transform(X2))
+    if initial == False:
+        X2 = itml.transform(X2)
+#        X2 = X2 * 500
+#        X2 = X2 * 500
+        print(X2)
+
+#    X2 = X2 * 1000
+    print(X2)
+    print(X)
+
+#    writeClusteringResult(X, y)
+
+    if takekmeans == True:
+        # Compute kMeans
+        kmeans = KMeans(n_clusters=10, random_state=0).fit(X2)
+        labels = kmeans.labels_
+        labels_true = y
+        core_samples_mask = [0] * len(y)
+    elif takeoptics == True:
+        opt = OPTICS(min_samples=30, xi=.05)
+#        opt = OPTICS(min_samples=50, xi=.05, min_cluster_size=.05)
+        opt.fit(X2)
+        labels = opt.labels_
+        labels_true = y
+        core_samples_mask = [0] * len(y)
+    else:
+        # Compute DBSCAN
+    #    db = DBSCAN(eps=0.1, min_samples=10).fit(X2)
+        db = DBSCAN(eps=0.1, min_samples=10).fit(X2)
+        core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
+        core_samples_mask[db.core_sample_indices_] = True
+        labels = db.labels_
+        labels_true = y
+
+    writeClusteringResult(X2, labels, labels_true, core_samples_mask)
 
     print("+ doClustering")
     return 1
