@@ -34,6 +34,8 @@
 {% block content3 %}
         <p> Graphische Prozessdarstellung </p>
         <img src="{{ url_for('main_plot_classification') }}" alt="Image">
+        <br>
+        <a href="{{ url_for('plotcoordinates')}}"> Coordinates Plot</a>
 {% endblock %}
 
 

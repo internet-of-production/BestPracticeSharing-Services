@@ -10,7 +10,8 @@
                 <div class="well">
                     <h2>
                         <a href="{{ url_for('main_specificclusterresult', procid = row[0])}}">ID: {{ row[0]}}</a>
-                        Clustercore: {{ row[-1] }} ; Label: {{ row[-2] }}
+<!--                        Clustercore: {{ row[-1] }} ;    -->
+                        Label: {{ row[-2] }}
                     </h2>
                     Coordinates: {{ row[1:-2] }}
                 </div>
@@ -23,6 +24,10 @@
         <br>
         <br>
         <br>
-        <p> Graphische Prozessdarstellung </p>
+        <p> Graphische Prozessdarstellung: Berechnung </p>
         <img src="{{ url_for('main_plot_clustering') }}" alt="Image">
+        <p> Graphische Prozessdarstellung: Wahrheit </p>
+        <img src="{{ url_for('main_plot_clustering_real') }}" alt="Image">
+        <br>
+        <a href="{{ url_for('plotcoordinates')}}"> Coordinates Plot</a>
 {% endblock %}

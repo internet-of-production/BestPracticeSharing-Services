@@ -4,8 +4,8 @@ import sqlite3
 
 
 # read data from data mart
-def readTransformedData():
-    print("- readTransformedData")
+def readTransformedData(silent = True):
+    if not silent:  print("- readTransformedData")
 
     conn = sqlite3.connect('BestPracticeSharing.sqlite')
     c = conn.cursor()
@@ -36,8 +36,8 @@ def readTransformedData():
 
 
 # read clustering result from data mart
-def readClusteredData():
-    print("- readClusteredData")
+def readClusteredData(silent = True):
+    if not silent:  print("- readClusteredData")
 
     conn = sqlite3.connect('BestPracticeSharing.sqlite')
     c = conn.cursor()
@@ -55,7 +55,7 @@ def readClusteredData():
     clustercore = df1.iloc[:, colnum - 1].to_numpy().flatten()
 #    clustercore = df1[['Clustercore']].to_numpy().flatten()
 
-    print("+ readClusteredData")
+    if not silent:  print("+ readClusteredData")
     return X, y, clustercore
 
 
@@ -136,8 +136,8 @@ def readClassificationDataDFWithID():
     return df1
 
 
-def readFeedbackData():
-    print("- readFeedbackData")
+def readFeedbackData(silent = True):
+    if not silent:  print("- readFeedbackData")
 
     conn = sqlite3.connect('BestPracticeSharing.sqlite')
     c = conn.cursor()
@@ -148,5 +148,5 @@ def readFeedbackData():
     X = df1[['id_punkt1','id_punkt2']]
     y = df1[['feedback']].to_numpy().flatten()
 
-    print("+ readFeedbackData")
+    if not silent:  print("+ readFeedbackData")
     return X, y

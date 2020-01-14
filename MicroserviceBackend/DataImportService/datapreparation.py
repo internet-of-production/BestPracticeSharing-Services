@@ -3,21 +3,21 @@ import MicroserviceBackend.DataImportService.initialdataimport as di
 import sqlite3
 
 # transform data
-def transformData():
-    print("- transformData")
+def transformData(silent = True):
+    if not silent:  print("- transformData")
 
     df1 = di.readInputDataFromDatabase()
 #    df1.columns = ['xValue', 'yValue', 'Label']
 
 #    print(df1)
 
-    print("+ transformData")
+    if not silent:  print("+ transformData")
     return df1
 
 
 # write data to data mart
-def writeTransformedData():
-    print("- writeTransformedData")
+def writeTransformedData(silent = True):
+    if not silent:  print("- writeTransformedData")
 
     df1 = transformData()
 
@@ -28,7 +28,7 @@ def writeTransformedData():
     conn.commit()
     conn.close()
 
-    print("+ writeTransformedData")
+    if not silent:  print("+ writeTransformedData")
 
     return 0
 

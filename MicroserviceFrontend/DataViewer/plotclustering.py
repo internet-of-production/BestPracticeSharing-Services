@@ -4,32 +4,42 @@ import numpy as np
 import matplotlib.pyplot as plt
 import DatabaseIO.readDatabase as rd
 import seaborn as sns
+from pandas.plotting import parallel_coordinates
+import os
 
+def plotClustering(Inputdata = "Clustereddata", output = "website", currentIteration = "", silent = True):
+    if not silent:  print("- plotClustering")
 
-def plotClustering(X = None, labels = None, core_samples_mask = None):
-    print("- plotClustering")
-
-    if (X == None and labels == None and core_samples_mask == None):
+##### Scatter plot
+    if (Inputdata == "Clustereddata"):
         X, labels, core_samples_mask = rd.readClusteredData()
+    else:
+        X, labels = rd.readTransformedData()
+        core_samples_mask = [0] * len(labels)
+
     X["label"] = labels
     X["label"] = X["label"].apply(str)
-    print(X.dtypes)
-    print(X)
-    print(len(X))
-    print(labels)
-#
+
     colnum = len(X.columns)
     cols = range(1,colnum)#[1, 2, 3]
-#    pp = sns.pairplot(X[cols], size=1.8, aspect=1.8,
-#                      plot_kws=dict(edgecolor="k", linewidth=0.5),
-#                      diag_kind="kde", diag_kws=dict(shade=True))
 
-    sns.set(style="ticks", color_codes=True)
+    #plot noise in black
+    elem = -1
+    if elem in labels:
+        print("Noise existing. Assigning color black.")
+        current_palette = sns.color_palette()
+        sns.set_palette(
+            ["#000000"] + current_palette[1:]
+        )
+
+#    print(sns.color_palette())
+#    sns.set(style="ticks", color_codes=True)
     pp = sns.pairplot(data = X, vars = cols, hue = "label")#, palette="husl"
 
     fig = pp.fig
     fig.subplots_adjust(top=0.93, wspace=0.3)
-    t = fig.suptitle('Pairwise Plots', fontsize=14)
+    subt = 'Pairwise Plots: ' + Inputdata
+    t = fig.suptitle(subt, fontsize=14)
 
     #
     #
@@ -60,9 +70,19 @@ def plotClustering(X = None, labels = None, core_samples_mask = None):
     # plt.title('Clustering. Estimated number of clusters: %d' % len(unique_labels))
     #
     # f.savefig("clustering.pdf", bbox_inches='tight')
+    if output == "website":
+        img = BytesIO()
+        plt.savefig(img)
+    #    plt.show()
+        img.seek(0)
+        if not silent:  print("+ plotClustering")
+        return img
+    else:
+        filename = str(currentIteration) + "_clusteringplot.pdf"
+        plt.savefig(filename, bbox_inches='tight')
+        plt.show()
+        if not silent:  print("+ plotClustering")
+        return 0
 
-    img = BytesIO()
-    plt.savefig(img)
-    img.seek(0)
-    print("+ plotClustering")
-    return img
+#os.chdir("/Users/stefanbraun/PycharmProjects/BestPracticeSharing-Services/")
+#plt = plotClustering(Inputdata = "")

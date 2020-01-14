@@ -5,8 +5,10 @@ import urllib.request
 import DatabaseIO.readDatabase as rd
 import MicroserviceFrontend.DataViewer.plotclassification as pclass
 import MicroserviceFrontend.DataViewer.plotclustering as pclust
+import MicroserviceFrontend.DataViewer.coordinatesplot as cs
 import MicroserviceBackend.RecommendationService.VotingService.voting as vs
 from DatabaseIO.config import *
+import time
 
 app = Flask(__name__)
 
@@ -193,12 +195,32 @@ def main_plot_clustering():
     return send_file(img, mimetype='image/png', cache_timeout=0)
 
 
+@app.route('/bps/clusteringresult_real.png')
+@app.route('/clusteringresult_real.png')
+def main_plot_clustering_real():
+    print("real")
+    time.sleep(5)
+    img2 = pclust.plotClustering(Inputdata = "")
+    return send_file(img2, mimetype='image/png', cache_timeout=0)
+
+
 @app.route('/bps/classificationresult.png')
 @app.route('/classificationresult.png')
 def main_plot_classification():
     img = pclass.plotClassification()
     return send_file(img, mimetype='image/png', cache_timeout=0)
 
+
+@app.route('/plotcoordinates')
+def plotcoordinates():
+    cs.plotCoordinatesPlot()
+    return return_origin()
+
+
+# @app.route('/plotcoordinates')
+# def plotcoordinates():
+#     img = cs.plotCoordinatesPlot()
+#     return send_file(img, mimetype='image/png', cache_timeout=0)
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)

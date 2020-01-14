@@ -13,21 +13,21 @@ import datetime
 from metric_learn import ITML
 
 
-def writeClusteringResult(X, labels, labels_true, core_samples_mask):
-    print("- writeClusteringResult")
+def writeClusteringResult(X, labels, labels_true, core_samples_mask, silent = True):
+    if not silent:  print("- writeClusteringResult")
 
     # Number of clusters in labels, ignoring noise if present.
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
     n_noise_ = list(labels).count(-1)
 
-    print('Estimated number of clusters: %d' % n_clusters_)
-    print('Estimated number of noise points: %d' % n_noise_)
-    print("Homogeneity: %0.3f" % metrics.homogeneity_score(labels_true, labels))
-    print("Completeness: %0.3f" % metrics.completeness_score(labels_true, labels))
-    print("V-measure: %0.3f" % metrics.v_measure_score(labels_true, labels))
-    print("Adjusted Rand Index: %0.3f"
+    if not silent:  print('Estimated number of clusters: %d' % n_clusters_)
+    if not silent:  print('Estimated number of noise points: %d' % n_noise_)
+    if not silent:  print("Homogeneity: %0.3f" % metrics.homogeneity_score(labels_true, labels))
+    if not silent:  print("Completeness: %0.3f" % metrics.completeness_score(labels_true, labels))
+    if not silent:  print("V-measure: %0.3f" % metrics.v_measure_score(labels_true, labels))
+    if not silent:  print("Adjusted Rand Index: %0.3f"
           % metrics.adjusted_rand_score(labels_true, labels))
-    print("Adjusted Mutual Information: %0.3f"
+    if not silent:  print("Adjusted Mutual Information: %0.3f"
           % metrics.adjusted_mutual_info_score(labels_true, labels,
                                                average_method='arithmetic'))
 #    print("Silhouette Coefficient: %0.3f"
@@ -47,15 +47,15 @@ def writeClusteringResult(X, labels, labels_true, core_samples_mask):
     conn.commit()
     conn.close()
 
-    print("+ writeClusteringResult")
+    if not silent:  print("+ writeClusteringResult")
     return 1
 
 
 # do a calculation of similar processes based on clustering
-def doClustering(X = None, y = None, initial = False):
+def doClustering(X = None, y = None, initial = False, silent = True):
     takekmeans = True
     takeoptics = False
-    print("- doClustering")
+    if not silent:  print("- doClustering")
     #
     # if (X == None and y == None):
     #     if initial == True:
@@ -105,7 +105,7 @@ def doClustering(X = None, y = None, initial = False):
 
         itml = ITML()
         itml.fit(pairs, a)
-        print("Transform")
+        if not silent:  print("Transform")
 #        print(X2)
 
         X2 = itml.transform(X2)
@@ -121,7 +121,7 @@ def doClustering(X = None, y = None, initial = False):
 
     if takekmeans == True:
         # Compute kMeans
-        kmeans = KMeans(n_clusters=3, random_state=0).fit(X2)
+        kmeans = KMeans(n_clusters=4 , random_state=0).fit(X2)
         labels = kmeans.labels_
         labels_true = y
         core_samples_mask = [0] * len(y)
@@ -135,7 +135,7 @@ def doClustering(X = None, y = None, initial = False):
     else:
         # Compute DBSCAN
     #    db = DBSCAN(eps=0.1, min_samples=10).fit(X2)
-        db = DBSCAN(eps=0.1, min_samples=10).fit(X2)
+        db = DBSCAN(eps=0.6, min_samples=5).fit(X2)
         core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
         core_samples_mask[db.core_sample_indices_] = True
         labels = db.labels_
@@ -143,6 +143,6 @@ def doClustering(X = None, y = None, initial = False):
 
     writeClusteringResult(X2, labels, labels_true, core_samples_mask)
 
-    print("+ doClustering")
+    if not silent:  print("+ doClustering")
     return 1
 

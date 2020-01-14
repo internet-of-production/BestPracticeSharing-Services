@@ -4,8 +4,8 @@ import pandas as pd
 import sqlite3
 
 
-def readInputDataFromDatabase():
-    print("- readInputDataFromDatabase")
+def readInputDataFromDatabase(silent = True):
+    if not silent:  print("- readInputDataFromDatabase")
 
     conn = sqlite3.connect('BestPracticeSharing.sqlite')
     c = conn.cursor()
@@ -27,12 +27,12 @@ def readInputDataFromDatabase():
 #    X = df1[[0,1]]
 #    y = df1[[2]].to_numpy().flatten()
 
-    print("+ readInputDataFromDatabase")
+    if not silent:  print("+ readInputDataFromDatabase")
     return df1
 
 
-def writeDataFromExcelToDatabase():
-    print("- writeDataFromExcelToDatabase")
+def writeDataFromExcelToDatabase(silent = True):
+    if not silent:  print("- writeDataFromExcelToDatabase")
 
     df1 = pd.read_excel("featuresinputexcel.xlsx");
 #    df2 = pd.read_excel("190905_PDM-Produktdatenbank_V06_rdn.xlsx");
@@ -49,5 +49,5 @@ def writeDataFromExcelToDatabase():
     conn.commit()
     conn.close()
 
-    print("+ writeDataFromExcelToDatabase")
+    if not silent:  print("+ writeDataFromExcelToDatabase")
     return 1
