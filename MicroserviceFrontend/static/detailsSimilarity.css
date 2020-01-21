@@ -12,8 +12,8 @@ body
 #element1
 {
     display: inline-block;
-    margin-top:5px;
-    width:5%;
+    margin-top:0px;
+    width:4%;
     color:white;
 }
 
@@ -23,9 +23,9 @@ body
     display:inline-block;
     vertical-align:top;
 /*    margin-top:90px; */
-    margin-top:5px;
+    margin-top:0px;
     alignment:left;
-    width:60%;
+    width:30%;
 
 }
 
@@ -39,10 +39,20 @@ body
 #element4
 {
     display: inline-block;
-    margin-top:5px;
-    width:5%;
+    margin-top:0px;
+    width:30%;
 }
 
-.popover {
-  max-width: 1500px;
+#element5
+{
+    display: inline-block;
+    margin-top:0px;
+    width:4%;
+}
+
+#element6
+{
+    display: inline;
+    margin-top:10px;
+    width:100%;
 }

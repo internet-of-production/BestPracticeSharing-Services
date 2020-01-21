@@ -189,3 +189,18 @@ def doEvaluateLoop(repeats):
 
 #doEvaluate()
 doEvaluateLoop(100)
+
+
+####
+#    gd.dbuild_feedback(df)
+
+    # # 1er Feedbacks
+    # l = list(range(1,samples+1))
+    # for l1 in l:
+    #     for l2 in l:
+    #         if l1 < l2:
+    #             print(l1, l2)
+    #             gd.write_specific_feedback(df, l1, l2)
+    #             used_combinations.append(tuple((l1, l2)))
+    #
+    # print(used_combinations)

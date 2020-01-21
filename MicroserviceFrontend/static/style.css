@@ -13,7 +13,8 @@ body
 {
     display: inline-block;
     margin-top:5px;
-    width:10%;
+    width:5%;
+    color:white;
 }
 
 #element2
@@ -24,7 +25,7 @@ body
 /*    margin-top:90px; */
     margin-top:5px;
     alignment:left;
-    width:45%;
+    width:25%;
 
 }
 
@@ -32,5 +33,17 @@ body
 {
     display: inline-block;
     margin-top:0px;
-    width:40%;
+    width:25%;
 }
+
+#element4
+{
+    display: inline-block;
+    margin-top:5px;
+    width:5%;
+}
+
+.popover {
+  max-width: 1500px;
+}
+

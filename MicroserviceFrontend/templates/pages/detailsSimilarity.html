@@ -1,0 +1,117 @@
+
+{% extends "layouts/layout_similarity.html" %}
+
+
+{% block content2 %}
+
+     <h1>Anzuzeigende Merkmale:</h1>
+    <br>
+    <br>
+    <br>
+
+            {% for row in list %}
+                <div class="well">
+                    <h2>
+<!--                        {{ row[0]}}
+                       Clustercore: {{ row[-1] }} ; Label: {{ row[-2] }};  -->
+<!--     <div align="right">-->
+
+<!--                        <a href=""> Anwählen </a> /
+                        <a href=""> Abwählen </a>
+-->
+     <div class="form-group">
+<!--     <label for="IsValid" class="control-label col-md-2">{{ row[0]}}</label>-->
+     <label for="IsValid" class="control-label col-md-0"></label>
+     <div class="col-md-1">
+        <input type="checkbox" class="form-control" id="IsValid" name="IsValid" {% if row[0]=="Technologie" or row[0]=="Material"%}checked{% endif %}>
+     </div>
+      <font size="6.5"> {{ row[0]}}</font>
+
+     </div>
+<!--     </div>-->
+
+                    </h2>
+                </div>
+            {% endfor %}
+
+{% endblock %}
+
+{% block content3 %}
+     <h1>Clusterdarstellung:</h1>
+        <img src="{{ url_for('main_plot_clustering2D') }}" width="100%" alt="Image">
+{% endblock %}
+
+{% block content4 %}
+     <h1>Darstellung der einzelnen Merkmale:</h1>
+<!--        <p> Verteilung von X:</p>-->
+        <img src="{{ url_for('main_plot_clustering1D', axis = 1) }}" width="100%" alt="Image">
+<!--        <p> Verteilung von Y:</p>
+        <img src="{{ url_for('main_plot_clustering1D', axis = 2) }}" alt="Image">-->
+{% endblock %}
+
+{% block content5 %}
+{% endblock %}
+
+{% block content6 %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+     <div align="center">
+
+
+                <div class="well">
+                    <font size="5">Feedback für Prozesspaar:</font>
+                    <br>
+
+            <ul class="list-inline">
+            <li class="lists-item">
+                <select name="activity">
+                {% for activity in activities %}
+                    <option value="{{ activity }}">{{ activity }}</option>
+                {% endfor %}
+                </select>
+            </li>
+            <li class="lists-item">
+                <select name="activity">
+                {% for activity in activities %}
+                    <option value="{{ activity }}">{{ activity }}</option>
+                {% endfor %}
+                </select>
+            </li>
+                        <a href="{{ url_for('main_upvote', procid = 1)}}">
+                            <button type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-thumbs-up"></span> Gehören zusammen
+                            </button>
+                        </a>
+                        <a href="{{ url_for('main_downvote', procid = 2)}}">
+                            <button type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-thumbs-down"></span> Gehören nicht zusammen
+                            </button>
+                        </a>
+
+         </ul>
+                </div>
+                <div class="well">
+                    <h2>
+                        <a href="{{ url_for('konfigurator')}}"> Konfigurator </a>
+                    </h2>
+                </div>
+
+
+     </div>
+{% endblock %}
