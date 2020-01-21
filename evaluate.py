@@ -187,7 +187,6 @@ def doEvaluateLoop(repeats):
         print("Loop:", rep)
         doEvaluate()
 
-#doEvaluate()
 doEvaluateLoop(100)
 
 
