@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 import os
 import time
 
-
 def plotevaluation(seed, samples, features, centers, std, randomNumberOfVotes, silent = False, showplot = True):
     if not silent:  print("+ plotevaluation")
 
