@@ -10,7 +10,7 @@ import MicroserviceBackend.RecommendationService.VotingService.voting as vs
 from DatabaseIO.config import *
 import time
 import pandas as pd
-import appdirs
+
 
 app = Flask(__name__)
 

@@ -1,0 +1,17 @@
+name: conda-env
+dependencies:
+  - numpy
+  - pandas
+  - flask
+  - Sqlite
+  - matplotlib
+  - scikit-learn
+  - scipy
+  - seaborn
+  - requests
+  - pip
+  - pip:
+    - Flask-Testing
+    - flask-reverse-proxy-fix
+    - metric-learn
+    - xlrd
