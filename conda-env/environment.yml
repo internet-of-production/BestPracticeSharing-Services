@@ -10,6 +10,7 @@ dependencies:
   - seaborn
   - requests
   - pip
+  - openpyxl
   - pip:
     - Flask-Testing
     - flask-reverse-proxy-fix

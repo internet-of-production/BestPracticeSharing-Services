@@ -1,0 +1,33 @@
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+     <h1>Ähnliche Prozesse</h1>
+
+            {% for row in processes %}
+                <div class="well">
+                    <h2>
+                        <span>
+                        <a href="{{ url_for('main_specificclusterresult', procid = row[0])}}">Prozess ID: {{ row[0]}}</a>
+<!--                        Clustercore: {{ row[-1] }} ; Label: {{ row[-2] }};  -->
+                        </span>
+                        <span class="pull-right">
+                        <a href="{{ url_for('main_upvote', procid = row[0])}}">
+                            <button type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-thumbs-up"></span> Stimmt
+                            </button>
+                        </a>
+                        <a href="{{ url_for('main_downvote', procid = row[0])}}">
+                            <button type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-thumbs-down"></span> Stimmt nicht
+                            </button>
+                        </a>
+                        </span>
+                    </h2>
+                    Gütewert: 1
+                    <br>
+                    Ähnlichkeit: 100 %
+                    <br>
+                    Merkmalausprägungen: {{ row[1:-2] }}
+                </div>
+     </div>
+            {% endfor %}

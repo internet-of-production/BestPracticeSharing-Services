@@ -1,0 +1,154 @@
+
+
+{% extends "layouts/layout.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='detailsComparison.css') }}">
+{% endblock %}
+
+{% block content7 %}
+    <div align="center">
+            <ul class="list-inline">
+
+                <li class="lists-item">
+                    <font size="6">Ausgewählte Prozesse:</font>
+                </li>
+
+            {% for row in list2 %}
+                <li class="lists-item">
+                   <div class="well well-sm">
+                    <label for="IsValid" class="control-label col-md-0">
+                     <font size="6.5">  {{ row[0]}}</font></label>
+                    <div class="col-md-1">
+                        <input type="checkbox" class="form-control" id="IsValid" name="IsValid" checked>
+                    </div>
+                </div>
+                </li>
+            {% endfor %}
+
+            <li class="lists-item">
+                Zusatzprozess hinzufügen
+                <select name="activity">
+                {% for activity in activities %}
+                    <option value="{{ activity }}">{{ activity }}</option>
+                {% endfor %}
+                </select>
+            </li>
+
+         </ul>
+     </div>
+
+
+
+
+{% endblock %}
+
+{% block content1 %}
+{% endblock %}
+
+{% block content2 %}
+
+     <h1>Koordinatengraph:</h1>
+        <img src="{{ url_for('plotcoordinates', axis = checked_boxes) }}" width="95%">
+
+
+{% endblock %}
+
+{% block content3 %}
+
+     <h1>Anzuzeigende Merkmale:</h1>
+    <br>
+    <br>
+    <br>
+<form action="" method="post" name="detailsComparison">
+
+            {% for row in list %}
+                <div class="well">
+                    <h2>
+<!--                        {{ row[0]}}
+                       Clustercore: {{ row[-1] }} ; Label: {{ row[-2] }};  -->
+<!--     <div align="right">-->
+
+<!--                        <a href=""> Anwählen </a> /
+                        <a href=""> Abwählen </a>
+-->
+<!--     <div class="form-group">-->
+<!--     <label for="IsValid" class="control-label col-md-2">{{ row[0]}}</label>-->
+     <label for="IsValid" class="control-label col-md-0"></label>
+     <div class="col-md-1">
+        <input type="checkbox" id="id_{{row}}" name="ComparisonPageMerkmaleKeys" value="{{ row }}" {% if row[0] in checked_boxes %}checked{% endif %}> <!-- {% if row[0]==1 or row[0]==2%}checked{% endif %} -->
+<!--        <input type="checkbox" class="form-control" id="IsValid" name="IsValid" {% if 1%}checked{% endif %}>-->
+     </div>
+      <font size="6.5"> {{ row[0]}}</font>
+
+<!--     </div>-->
+<!--     </div>-->
+
+                    </h2>
+                </div>
+            {% endfor %}
+
+              <div class="field is-grouped">
+                <div class="control">
+                  <button class="button is-danger is-small">Aktualisieren</button>
+                </div>
+              </div>
+</form>
+
+{% endblock %}
+
+{% block content4 %}
+{% endblock %}
+
+{% block content5 %}
+{% endblock %}
+
+{% block content6 %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+     <div align="center">
+
+
+
+                <div class="well">
+                    <font size="5">Feedback für Prozesspaar:</font>
+                    <br>
+
+            <ul class="list-inline">
+            <li class="lists-item">
+                <select name="activity">
+                {% for activity in activities %}
+                    <option value="{{ activity }}">{{ activity }}</option>
+                {% endfor %}
+                </select>
+            </li>
+            <li class="lists-item">
+                <select name="activity">
+                {% for activity in activities %}
+                    <option value="{{ activity }}">{{ activity }}</option>
+                {% endfor %}
+                </select>
+            </li>
+                        <a href="{{ url_for('main_upvote', procid = 1)}}">
+                            <button type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-thumbs-up"></span> Gehören zusammen
+                            </button>
+                        </a>
+                        <a href="{{ url_for('main_downvote', procid = 2)}}">
+                            <button type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-thumbs-down"></span> Gehören nicht zusammen
+                            </button>
+                        </a>
+
+         </ul>
+
+     </div>
+     </div>
+{% endblock %}

@@ -1,0 +1,123 @@
+
+
+{% extends "layouts/layout.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='detailsSimilarity.css') }}">
+{% endblock %}
+
+{% block content2 %}
+
+     <h1>Anzuzeigende Merkmale:</h1>
+    <br>
+    <br>
+    <br>
+
+<form action="" method="post" name="detailsSimilarity">
+            {% for row in list %}
+                <div class="well">
+                    <h2>
+<!--                     <div class="form-group">-->
+
+<!--                     <label for="IsValid" class="control-label col-md-0"></label>-->
+                     <div class="col-md-1">
+<!--            <label class="checkbox">-->
+<!--                        <input type="checkbox" class="form-control" id="id_{{row}}" name="SimilariyPageMerkmale" >--> <!-- {% if row[0]==1 or row[0]==2%}checked{% endif %} -->
+                        <input type="checkbox" id="id_{{row}}" name="SimilariyPageMerkmaleKeys" value="{{ row }}" {% if row[0] in checked_boxes %}checked{% endif %}> <!-- {% if row[0]==1 or row[0]==2%}checked{% endif %} -->
+                        <!--<input type="checkbox" class="form-control" id="id_{{row}}" name="SimilariyPageMerkmale" {% if row[0]==1 or row[0]==2%}checked{% endif %}>-->
+                        <!--<label for="id_{{row}}">{{row}}</label>-->
+<!--            </label>-->
+                     </div>
+                      <font size="6.5"> {{ row[0]}}</font>
+
+   <!--                  </div>-->
+
+                    </h2>
+                </div>
+            {% endfor %}
+
+              <div class="field is-grouped">
+                <div class="control">
+                  <button class="button is-danger is-small">Aktualisieren</button>
+                </div>
+              </div>
+</form>
+
+{% endblock %}
+
+{% block content3 %}
+     <h1>Clusterdarstellung:</h1>
+        <img src="{{ url_for('main_plot_clustering2D', axis = checked_boxes) }}" width="100%" alt="Image">
+{% endblock %}
+
+{% block content4 %}
+     <h1>Darstellung der einzelnen Merkmale:</h1>
+        <img src="{{ url_for('main_plot_clustering1D', axis = checked_boxes) }}" width="100%" alt="Image">
+{% endblock %}
+
+{% block content5 %}
+{% endblock %}
+
+{% block content6 %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+     <div align="center">
+
+
+                <div class="well">
+                    <font size="5">Feedback für Prozesspaar:</font>
+                    <br>
+
+            <ul class="list-inline">
+            <li class="lists-item">
+                <select name="activity">
+                {% for activity in activities %}
+                    <option value="{{ activity }}">{{ activity }}</option>
+                {% endfor %}
+                </select>
+            </li>
+            <li class="lists-item">
+                <select name="activity">
+                {% for activity in activities %}
+                    <option value="{{ activity }}">{{ activity }}</option>
+                {% endfor %}
+                </select>
+            </li>
+                        <a href="{{ url_for('main_upvote', procid = 1)}}">
+                            <button type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-thumbs-up"></span> Gehören zusammen
+                            </button>
+                        </a>
+                        <a href="{{ url_for('main_downvote', procid = 2)}}">
+                            <button type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-thumbs-down"></span> Gehören nicht zusammen
+                            </button>
+                        </a>
+
+         </ul>
+                </div>
+                <div class="well">
+                    <h2>
+                        <a href="{{ url_for('konfigurator')}}"> Konfigurator </a>
+                    </h2>
+                </div>
+
+
+     </div>
+{% endblock %}

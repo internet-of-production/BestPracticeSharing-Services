@@ -1,0 +1,72 @@
+
+
+{% extends "layouts/layout.html" %}
+
+
+{% block content2 %}
+
+     <h1>Meine Prozesse</h1>
+
+            {% for row in processes %}
+
+                <div class="well">
+                    <h2>
+<!--                        <span class="pull-left">-->
+                        <span class ="user_labels">
+                        <a href="{{ url_for('main_specificclusterresult', procid = row[0])}}">Prozess ID: {{ row[0]}}</a>
+<!--                        Clustercore: {{ row[-1] }} ;    -->
+<!--                         </span>-->
+                        </span>
+                        <span>
+                        Label: {{ row[-2] }}
+                        </span>
+                        <span class="pull-right">
+                        <span class="user_popup">
+                        <a href="#" >   Zeige ähnliche Prozesse</a>
+
+                        </span>
+                        </span>
+
+                    </h2>
+                    Gütewert: 1
+                    <br>
+                    Merkmalausprägungen: {{ row[1:-2] }}
+                </div>
+
+
+
+
+
+            {% endfor %}
+
+{% endblock %}
+
+{% block content3 %}
+{% endblock %}
+
+{% block content4 %}
+{% endblock %}
+
+{% block content5 %}
+{% endblock %}
+
+{% block content6 %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+     <div align="center">
+
+                <div class="well">
+                    <h2>
+                        <a href="{{ url_for('detailsComparison')}}"> Details Ähnlichkeitsanalyse </a>
+                    </h2>
+                </div>
+
+     </div>
+{% endblock %}
